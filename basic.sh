@@ -6,6 +6,9 @@ OVMF=$VMDIR/firmware
 #export QEMU_AUDIO_DRV=pa
 #QEMU_AUDIO_DRV=pa
 
+base=/run/media/slams/Media/os/macos/BaseSystem.img
+disk=/run/media/slams/Media/os/macos/disk01.qcow2
+
 qemu-system-x86_64 \
     -enable-kvm \
     -m 2G \
@@ -24,5 +27,7 @@ qemu-system-x86_64 \
     -device ich9-ahci,id=sata \
     -drive id=ESP,if=none,format=qcow2,file=ESP.qcow2 \
     -device ide-hd,bus=sata.2,drive=ESP \
-    -drive id=InstallMedia,format=raw,if=none,file=BaseSystem.img \
+    -drive id=InstallMedia,format=raw,if=none,file=${base} \
     -device ide-hd,bus=sata.3,drive=InstallMedia \
+    -drive id=SystemDisk,if=none,file=${disk} \
+    -device ide-hd,bus=sata.4,drive=SystemDisk \
